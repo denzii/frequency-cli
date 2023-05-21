@@ -9,27 +9,23 @@ namespace swordgroup.Service
 {
     public class CharFrequency
     {
-        public CharFrequency() { }
+        private readonly bool _caseSensitive;
         public CharFrequency(bool caseSensitive)
         {
-            this.caseSensitive = caseSensitive;
+            _caseSensitive = caseSensitive;
         }
-        public bool caseSensitive { get; set; }
-        private List<KeyValuePair<char, int>> GetTop10MostFrequent(string content)
+        private IEnumerable<char> FilterContent(string content) => content.Where(c => char.IsLetter(c));
+        
+        private IEnumerable<KeyValuePair<char, int>> GetTop10MostFrequent(string content)
         {
-            content = caseSensitive ? content :  content.ToLower();
-            
-            var frequencies = new Dictionary<char, int>();
-            foreach (var character in content)
-            {
-                    if (!frequencies.ContainsKey(character))
-                        frequencies[character] = 1;
-                    else frequencies[character]++;
-            }
+            var filteredContent = FilterContent(content);
+            filteredContent = _caseSensitive ? filteredContent : filteredContent.Select(c => char.ToLower(c));
 
-            return frequencies.OrderByDescending(pair => pair.Value)
-                                   .Take(10)
-                                   .ToList();
+            return filteredContent
+                .GroupBy(x => x)
+                .Select(e => new KeyValuePair<char, int>(e.Key, e.Count()))
+                .OrderByDescending(b => b.Value)
+                .Take(10);
         }
 
         public AnalysisResult CalculateStats(string content)

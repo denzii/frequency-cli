@@ -9,6 +9,6 @@ namespace swordgroup.Model
     public class AnalysisResult
     {
         public int TotalCharacters { get; set; }
-        public List<KeyValuePair<char, int>> Top10MostFrequent { get; set; }
+        public IEnumerable<KeyValuePair<char, int>> Top10MostFrequent { get; set; }
     }
 }
