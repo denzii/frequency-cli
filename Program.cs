@@ -22,7 +22,7 @@ namespace swordgroup
         {
             (string? filename, bool caseSensitive) = getArgs(args);
             var NoFileProvided = () => {
-                const string sample = "The...... three did feed the deer\r\n" +  "The quick brown fox..., jumped over the lazy dog";
+                const string sample = "The three did feed the deer\r\n" +  "The quick brown fox jumped over the lazy dog";
                 Console.WriteLine($"Will use the Sample input file - Sample.txt (in memory) in the mode (caseSensitive:{caseSensitive}).\r\n" + sample);
                 DisplayAnalysisResults(sample, caseSensitive);
             };
@@ -32,7 +32,7 @@ namespace swordgroup
             };
             var FileFound = () => {
                 var fileContent = File.ReadAllText(filename);
-                Console.WriteLine($"Will use the provided input file - {filename} in caseSensitive:{caseSensitive} mode.\r\n" + fileContent);
+                Console.WriteLine($"Will use the provided input file - {filename} in the more caseSensitive:{caseSensitive}.\r\n" + fileContent);
                 DisplayAnalysisResults(fileContent, caseSensitive);
             };
 

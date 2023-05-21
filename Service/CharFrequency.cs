@@ -14,12 +14,12 @@ namespace swordgroup.Service
         {
             _caseSensitive = caseSensitive;
         }
-        private IEnumerable<char> FilterContent(string content) => content.Where(c => char.IsLetter(c));
         
         private IEnumerable<KeyValuePair<char, int>> GetTop10MostFrequent(string content)
         {
-            var filteredContent = FilterContent(content);
-            filteredContent = _caseSensitive ? filteredContent : filteredContent.Select(c => char.ToLower(c));
+            var filteredContent = _caseSensitive 
+                ? content.Where(char.IsLetter)
+                : content.Where(char.IsLetter).Select(char.ToLower);
 
             return filteredContent
                 .GroupBy(x => x)
